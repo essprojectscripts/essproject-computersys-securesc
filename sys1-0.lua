@@ -1,1 +1,1 @@
-game.Workspace.Baseplate.Transparency = 1
+game.ReplicatedStorage.esprojectsmartservice_computersysison.Value = true
