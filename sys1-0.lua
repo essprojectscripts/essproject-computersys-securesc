@@ -8,11 +8,12 @@ local ALLOWED_PLACES = {
 }
 
 local ALLOWED_USERS = {
-	[123456789] = true,  -- esukccc0070
+	[2643662186] = true,  -- esukccc0070
 }
 
 local ALLOWED_GROUPS = {
-	[123456789] = true,  -- es's studio
+	[15755181] = true,  -- es's studio
+	[34282287] = true,  -- es's project
 }
 
 -- 2. 현재 환경 정보 수
